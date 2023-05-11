@@ -23,13 +23,15 @@ public class FlooringMasteryView {
         return io.readInt("Please select from the above choices.", 1, 6);
     }
 
-    public void displayOrderList(List<Order> orderList) {
-        for (Order currentOrder : orderList) {
-            String orderInfo = String.format("#%s : %s",
-                    currentOrder.getOrderNumber(),
-                    currentOrder.getCustomerName());
-            io.print(orderInfo);
-        }
-        io.readString("Please hit enter to continue.");
+    public void displayDisplayAllBanner() {
+        io.print("=== Display All Orders ===");
+    }
+
+    public void displayUnknownCommandBanner() {
+        io.print("Unknown Command!!!");
+    }
+
+    public void displayExitBanner() {
+        io.print("Good Bye!!!");
     }
 }

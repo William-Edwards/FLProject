@@ -20,23 +20,6 @@ public class Order {
         this.tax = tax;
         this.product = product;
         this.area = area;
-
-        /*
-         * handling for field calcs
-         * 
-         * MaterialCost = (Area * CostPerSquareFoot)
-         * LaborCost = (Area * LaborCostPerSquareFoot)
-         * Tax = (MaterialCost + LaborCost) * (TaxRate/100)
-         * 
-         * Tax rates are stored as whole numbers
-         * Total = (MaterialCost + LaborCost + Tax)
-         */
-
-        this.materialCost = area.multiply(product.getCostPerSquareFoot()); // need to check scale(2) for these
-        this.laborCost = area.multiply(product.getLaborCostPerSquareFoot());
-        BigDecimal subTotal = this.materialCost.add(this.laborCost);
-        this.taxCost = subTotal.multiply(tax.getTaxRate().divide(new BigDecimal("100")));
-        this.total = subTotal.add(taxCost);
     }
 
     // Getters and Setters
@@ -80,8 +63,32 @@ public class Order {
         this.area = area;
     }
 
+    public void setMaterialCost(BigDecimal materialCost) {
+        this.materialCost = materialCost;
+    }
+
+    public BigDecimal getMaterialCost() {
+        return materialCost;
+    }
+
+    public void setLaborCost(BigDecimal laborCost) {
+        this.laborCost = laborCost;
+    }
+
+    public BigDecimal getLaborCost() {
+        return laborCost;
+    }
+
+    public void setTaxCost(BigDecimal taxCost) {
+        this.taxCost = taxCost;
+    }
+
     public BigDecimal getTaxCost() {
         return taxCost;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
     }
 
     public BigDecimal getTotal() {
