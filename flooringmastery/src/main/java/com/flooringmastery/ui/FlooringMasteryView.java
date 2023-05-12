@@ -27,6 +27,17 @@ public class FlooringMasteryView {
         io.print("=== Display All Orders ===");
     }
 
+    public void displayOrderList(List<Order> orderList) {
+        for (Order currentOrder : orderList) {
+            // print all order info
+            System.out.println(currentOrder);
+        }
+    }
+
+    public String getOrderDate() {
+        return io.readString("Please enter the date in the format MMDDYYYY.");
+    }
+
     public void displayUnknownCommandBanner() {
         io.print("Unknown Command!!!");
     }

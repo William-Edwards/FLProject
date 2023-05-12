@@ -1,12 +1,18 @@
 package com.flooringmastery.controller;
 
+import java.util.List;
+
+import com.flooringmastery.dto.Order;
+import com.flooringmastery.service.FlooringMasteryServiceLayer;
 import com.flooringmastery.ui.FlooringMasteryView;
 
 public class FlooringMasteryController {
     private FlooringMasteryView view;
+    private FlooringMasteryServiceLayer service;
 
-    public FlooringMasteryController(FlooringMasteryView view) {
+    public FlooringMasteryController(FlooringMasteryView view, FlooringMasteryServiceLayer service) {
         this.view = view;
+        this.service = service;
     }
 
     public void run() {
@@ -19,7 +25,7 @@ public class FlooringMasteryController {
 
                 switch (menuSelection) {
                     case 1:
-                        System.out.println("LIST ORDER");
+                        viewOrders();
                         break;
                     case 2:
                         System.out.println("ADD ORDER");
@@ -50,6 +56,14 @@ public class FlooringMasteryController {
 
     private int getMenuSelection() {
         return view.printMenuAndGetSelection();
+    }
+
+    // view orders based on date
+    private void viewOrders() {
+        view.displayDisplayAllBanner();
+        String orderDate = view.getOrderDate();
+        List<Order> orderList = service.getAllOrder(orderDate);
+        view.displayOrderList(orderList);
     }
 
     private void unknownCommand() {

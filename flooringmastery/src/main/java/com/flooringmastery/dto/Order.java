@@ -5,22 +5,16 @@ import java.math.BigDecimal;
 public class Order {
     private int orderNumber;
     private String customerName;
-    private Tax tax;
-    private Product product;
+    private String state;
+    private BigDecimal taxRate;
+    private String productType;
     private BigDecimal area;
-    private BigDecimal materialCost;
+    private BigDecimal costPerSquareFoot;
+    private BigDecimal laborCostPerSquareFoot;
+    private BigDecimal materialCost; // rest are calculated
     private BigDecimal laborCost;
     private BigDecimal taxCost;
     private BigDecimal total;
-
-    // Constructor
-    public Order(int orderNumber, String customerName, Tax tax, Product product, BigDecimal area) {
-        this.orderNumber = orderNumber;
-        this.customerName = customerName;
-        this.tax = tax;
-        this.product = product;
-        this.area = area;
-    }
 
     // Getters and Setters
     public int getOrderNumber() {
@@ -37,22 +31,6 @@ public class Order {
 
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
-    }
-
-    public Tax getTax() {
-        return tax;
-    }
-
-    public void setTax(Tax tax) {
-        this.tax = tax;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public void setProduct(Product product) {
-        this.product = product;
     }
 
     public BigDecimal getArea() {
@@ -93,6 +71,46 @@ public class Order {
 
     public BigDecimal getTotal() {
         return total;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setProductType(String productType) {
+        this.productType = productType;
+    }
+
+    public String getProductType() {
+        return productType;
+    }
+
+    public void setTaxRate(BigDecimal taxRate) {
+        this.taxRate = taxRate;
+    }
+
+    public BigDecimal getTaxRate() {
+        return taxRate;
+    }
+
+    public void setCostPerSquareFoot(BigDecimal costPerSquareFoot) {
+        this.costPerSquareFoot = costPerSquareFoot;
+    }
+
+    public BigDecimal getCostPerSquareFoot() {
+        return costPerSquareFoot;
+    }
+
+    public void setLaborCostPerSquareFoot(BigDecimal laborCostPerSquareFoot) {
+        this.laborCostPerSquareFoot = laborCostPerSquareFoot;
+    }
+
+    public BigDecimal getLaborCostPerSquareFoot() {
+        return laborCostPerSquareFoot;
     }
 
 }
