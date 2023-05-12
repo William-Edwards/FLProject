@@ -58,12 +58,13 @@ public class FlooringMasteryController {
         return view.printMenuAndGetSelection();
     }
 
-    // view orders based on date
+    // view orders based on date needs validation
     private void viewOrders() {
-        view.displayDisplayAllBanner();
         String orderDate = view.getOrderDate();
+        view.displayDisplayAllBanner();
         List<Order> orderList = service.getAllOrder(orderDate);
         view.displayOrderList(orderList);
+
     }
 
     private void unknownCommand() {

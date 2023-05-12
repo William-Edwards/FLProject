@@ -113,4 +113,23 @@ public class Order {
         return laborCostPerSquareFoot;
     }
 
+    // override the tostring methosd so when a order object is prited its in a nice
+    // format
+
+    @Override
+    public String toString() {
+        return "Order Number: " + orderNumber + "\n"
+                + "Customer Name: " + customerName + "\n"
+                + "State: " + state + "\n"
+                + "Tax Rate: " + taxRate + "\n"
+                + "Product Type: " + productType + "\n"
+                + "Area: " + area + "\n"
+                + "Cost Per Square Foot: " + costPerSquareFoot + "\n"
+                + "Labor Cost Per Square Foot: " + laborCostPerSquareFoot + "\n"
+                + "Material Cost: " + materialCost + "\n"
+                + "Labor Cost: " + laborCost + "\n"
+                + "Tax: " + taxCost + "\n"
+                + "Total: " + total + "\n";
+    }
+
 }

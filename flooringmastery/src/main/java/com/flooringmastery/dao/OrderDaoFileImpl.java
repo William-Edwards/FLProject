@@ -32,14 +32,10 @@ public class OrderDaoFileImpl implements OrderDao {
 
         // read file
 
-        try {
-            loadOrder(orderDate);
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        return new ArrayList<Order>(orders.values());
+        loadOrder(orderDate);
+        List<Order> orderList = new ArrayList<Order>(orders.values());
+        orders.clear();
+        return orderList;
 
     }
 
@@ -58,41 +54,47 @@ public class OrderDaoFileImpl implements OrderDao {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private void loadOrder(String orderDate) throws FileNotFoundException {
-        Scanner scanner;
+    private void loadOrder(String orderDate) {
+        Scanner scanner = null;
 
         try {
             // Create Scanner for reading the file
             scanner = new Scanner(
                     new BufferedReader(
                             new FileReader("Orders_" + orderDate + ".txt")));
+
+            // currentLine holds the most recent line read from the file
+            String currentLine;
+            // currentOder holds the most recent student unmarshalled
+            Order currentOrder;
+
+            scanner.nextLine();
+
+            while (scanner.hasNextLine()) {
+                // get the next line in the file
+                currentLine = scanner.nextLine();
+                // unmarshall the line into a order
+                currentOrder = unmarshallOrder(currentLine);
+
+                // convert int to string
+
+                String orderNumberString = String.valueOf(currentOrder.getOrderNumber());
+
+                // put order in hashmap with order number as the key
+
+                orders.put(orderNumberString, currentOrder);
+            }
         } catch (FileNotFoundException e) {
-            scanner = new Scanner(new BufferedReader(new FileReader(newOrderFile(orderDate))));
+
+            // creates new base file
+            // scanner = new Scanner(new BufferedReader(new
+            // FileReader(newOrderFile(orderDate))));
+            System.out.println(" Error file not found");
+        } finally {
+            if (scanner != null) {
+                scanner.close();
+            }
         }
-
-        // currentLine holds the most recent line read from the file
-        String currentLine;
-        // currentOder holds the most recent student unmarshalled
-        Order currentOrder;
-
-        scanner.nextLine();
-
-        while (scanner.hasNextLine()) {
-            // get the next line in the file
-            currentLine = scanner.nextLine();
-            // unmarshall the line into a order
-            currentOrder = unmarshallOrder(currentLine);
-
-            // convert int to string
-
-            String orderNumberString = String.valueOf(currentOrder.getOrderNumber());
-
-            // put order in hashmap with order number as the key
-
-            orders.put(orderNumberString, currentOrder);
-        }
-
-        scanner.close();
 
     }
 
