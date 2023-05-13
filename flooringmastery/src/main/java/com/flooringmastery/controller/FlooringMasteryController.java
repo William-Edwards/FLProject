@@ -72,24 +72,36 @@ public class FlooringMasteryController {
         do {
             // get and store order date
             String orderDate = view.getOrderDate();
+
             // get some new order info and return order object
-            Order currentOrder = view.getNewOrderInfo();
-            // display product list and get product type and area, return order object
-            currentOrder = view.getProuctAreaInfo(currentOrder, service.getAllProducts());
+            Order currentOrder = view.getNewOrderInfo(service.getAllProducts());
 
-            // print object
+            // check date
+            if (service.isTodayOrFuture(orderDate) && service.validateOrderData(currentOrder)) {
 
-            // confirmation to proceed
-            if (view.confirmation()) {
-                try {
-                    service.createOrder(orderDate, currentOrder);
-                    // success
-                    hasErrors = false;
+                // set order number
 
-                } catch (Exception e) {
-                    hasErrors = true;
-                    System.out.println("error creating order");
+                currentOrder.setOrderNumber(service.newOrderNumber(orderDate));
+
+                // calc rest of order properties
+                service.calculateOrderProperties(currentOrder);
+
+                // print object
+                view.displayOrder(currentOrder);
+                // confirmation to proceed
+                if (view.confirmation()) {
+                    try {
+                        service.createOrder(orderDate, currentOrder);
+                        // success
+                        hasErrors = false;
+
+                    } catch (Exception e) {
+                        hasErrors = true;
+                        System.out.println("error creating order");
+                    }
                 }
+            } else {
+                hasErrors = true;
             }
         } while (hasErrors);
     }

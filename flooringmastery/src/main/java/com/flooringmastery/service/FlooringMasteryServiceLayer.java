@@ -18,4 +18,12 @@ public interface FlooringMasteryServiceLayer {
 
     List<Product> getAllProducts();
 
+    boolean isTodayOrFuture(String orderDate);
+
+    boolean validateOrderData(Order order);
+
+    Order calculateOrderProperties(Order order);
+
+    int newOrderNumber(String orderDate);
+
 }

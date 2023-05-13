@@ -40,13 +40,27 @@ public class FlooringMasteryView {
         System.out.println(order);
     }
 
-    public Order getNewOrderInfo() {
+    public Order getNewOrderInfo(List<Product> productList) {
+        // prompt user for order info
         String customerName = io.readString("Please enter full name");
-        String state = io.readString("Please enter state name");
+        String state = io.readString("Please enter state abbreviation?");
+
+        // display products info
+        for (Product currentProduct : productList) {
+            // print all product info
+            System.out.println(currentProduct);
+        }
+
+        // more prompts
+        String productType = io.readString("Please enter a product type");
+        BigDecimal area = io.readBigDecimal("Please enter a area, minimum order is 100sq ft",
+                new BigDecimal("100.00"), new BigDecimal("1000000000.00"));
 
         Order currentOrder = new Order();
         currentOrder.setCustomerName(customerName);
         currentOrder.setState(state);
+        currentOrder.setProductType(productType);
+        currentOrder.setArea(area);
 
         return currentOrder;
 
@@ -57,6 +71,8 @@ public class FlooringMasteryView {
     }
 
     public String getOrderDate() {
+        // must be in future or today
+
         return io.readString("Please enter the date in the format MMDDYYYY.");
     }
 
@@ -70,22 +86,6 @@ public class FlooringMasteryView {
 
     public void displayExitBanner() {
         io.print("Good Bye!!!");
-    }
-
-    public Order getProuctAreaInfo(Order currentOrder, List<Product> allProducts) {
-        for (Product currentProduct : allProducts) {
-            // print all product info
-            System.out.println(currentProduct);
-        }
-
-        String productType = io.readString("Please enter a product type");
-        BigDecimal area = io.readBigDecimal("Please enter a area, minimum order is 100sq ft",
-                new BigDecimal("100.00"), new BigDecimal("1000000000.00"));
-
-        currentOrder.setProductType(productType);
-        currentOrder.setArea(area);
-
-        return currentOrder;
     }
 
     public boolean confirmation() {
