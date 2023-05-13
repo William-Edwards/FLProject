@@ -113,7 +113,7 @@ public class Order {
         return laborCostPerSquareFoot;
     }
 
-    // override the tostring methosd so when a order object is prited its in a nice
+    // override the tostring method so when a order object is prited its in a nice
     // format
 
     @Override

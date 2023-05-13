@@ -220,7 +220,7 @@ public class UserIOConsoleImpl implements UserIO {
             try {
 
                 // may need to set scale and precision
-                return new BigDecimal(msgPrompt);
+                return new BigDecimal(this.readString(msgPrompt));
             } catch (NumberFormatException e) {
                 this.print("Input error. Please try again.");
             }

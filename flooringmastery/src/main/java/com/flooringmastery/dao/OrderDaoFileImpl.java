@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
@@ -24,13 +25,30 @@ public class OrderDaoFileImpl implements OrderDao {
 
     @Override
     public Order addOrder(String orderDate, Order order) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        // check if orderdate exists, if not create new
+        File file = new File("Orders_" + orderDate + ".txt");
+        if (file.exists()) {
+            loadOrder(orderDate);
+        } else {
+            newOrderFile(orderDate);
+            loadOrder(orderDate);
+        }
+
+        // int to string
+        String orderNumberString = String.valueOf(order.getOrderNumber());
+
+        // put into hashmap
+        Order newOrder = orders.put(orderNumberString, order);
+
+        writeOrder(orderDate);
+
+        return newOrder;
     }
 
     @Override
     public List<Order> getAllOrder(String orderDate) {
 
-        // read file
+        // read file get order list by date clear hashmap
 
         loadOrder(orderDate);
         List<Order> orderList = new ArrayList<Order>(orders.values());
@@ -41,7 +59,13 @@ public class OrderDaoFileImpl implements OrderDao {
 
     @Override
     public Order getOrder(String orderDate, int orderNumber) {
-        throw new UnsupportedOperationException("Not supported yet.");
+
+        // read file and get order by date and number then clear hashmap
+
+        loadOrder(orderDate);
+        Order order = orders.get(String.valueOf(orderNumber));
+        orders.clear();
+        return order;
     }
 
     @Override
@@ -51,7 +75,11 @@ public class OrderDaoFileImpl implements OrderDao {
 
     @Override
     public Order removeOrder(String orderDate, int orderNumber) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        loadOrder(orderDate);
+        String orderNumberString = String.valueOf(orderNumber);
+        Order removedOrder = orders.remove(orderNumberString);
+        writeOrder(orderDate);
+        return removedOrder;
     }
 
     private void loadOrder(String orderDate) {
@@ -155,14 +183,62 @@ public class OrderDaoFileImpl implements OrderDao {
             if (file.createNewFile()) {
                 try (PrintWriter writer = new PrintWriter(file)) {
                     writer.println(HEADERS);
+                    System.out.println("New file created");
                 }
             }
         } catch (IOException e) {
-            System.out.println("An error occurred.");
+            System.out.println("An error occurred. File creation failed");
             e.printStackTrace();
         }
 
         return fileName;
+    }
+
+    private void writeOrder(String orderDate) {
+        PrintWriter out = null;
+
+        try {
+            out = new PrintWriter(new FileWriter("Orders_" + orderDate + ".txt"));
+            out.println(HEADERS);
+
+            String orderAsText;
+            List<Order> orderList = new ArrayList<Order>(orders.values());
+            for (Order currentOrder : orderList) {
+                // turn order to string
+                orderAsText = marshallOrder(currentOrder);
+                // write order to file
+                out.println(orderAsText);
+                out.flush();
+            }
+
+        } catch (IOException e) {
+            System.out.println("Could not save student data");
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+        }
+
+    }
+
+    private String marshallOrder(Order order) {
+
+        // Convert our Order object into a text string for file writing
+        String orderAsText = order.getOrderNumber() + DELIMITER;
+        orderAsText += order.getCustomerName() + DELIMITER;
+        orderAsText += order.getState() + DELIMITER;
+        orderAsText += order.getTaxRate() + DELIMITER;
+        orderAsText += order.getProductType() + DELIMITER;
+        orderAsText += order.getArea() + DELIMITER;
+        orderAsText += order.getCostPerSquareFoot() + DELIMITER;
+        orderAsText += order.getLaborCostPerSquareFoot() + DELIMITER;
+        orderAsText += order.getMaterialCost() + DELIMITER;
+        orderAsText += order.getLaborCost() + DELIMITER;
+        orderAsText += order.getTaxCost() + DELIMITER;
+        orderAsText += order.getTotal();
+
+        // We have now turned an order to text!
+        return orderAsText;
     }
 
 }

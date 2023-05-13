@@ -28,13 +28,13 @@ public class FlooringMasteryController {
                         viewOrders();
                         break;
                     case 2:
-                        System.out.println("ADD ORDER");
+                        createOrder();
                         break;
                     case 3:
                         System.out.println("EDIT ORDER");
                         break;
                     case 4:
-                        System.out.println("REMOVE ORDER");
+                        removeOrder();
                         break;
                     case 5:
                         System.out.println("EXPORT DATA");
@@ -61,10 +61,53 @@ public class FlooringMasteryController {
     // view orders based on date needs validation
     private void viewOrders() {
         String orderDate = view.getOrderDate();
-        view.displayDisplayAllBanner();
+        view.displayAllBanner();
         List<Order> orderList = service.getAllOrder(orderDate);
         view.displayOrderList(orderList);
+    }
 
+    private void createOrder() {
+        view.displayCreateBanner();
+        boolean hasErrors = false;
+        do {
+            // get and store order date
+            String orderDate = view.getOrderDate();
+            // get some new order info and return order object
+            Order currentOrder = view.getNewOrderInfo();
+            // display product list and get product type and area, return order object
+            currentOrder = view.getProuctAreaInfo(currentOrder, service.getAllProducts());
+
+            // print object
+
+            // confirmation to proceed
+            if (view.confirmation()) {
+                try {
+                    service.createOrder(orderDate, currentOrder);
+                    // success
+                    hasErrors = false;
+
+                } catch (Exception e) {
+                    hasErrors = true;
+                    System.out.println("error creating order");
+                }
+            }
+        } while (hasErrors);
+    }
+
+    private void removeOrder() {
+        // get and store order date
+        String orderDate = view.getOrderDate();
+
+        // get and store order number
+        int orderNumber = Integer.parseInt(view.getOrderNumber());
+
+        // display and confirmation
+        view.displayOrder(service.getOrder(orderDate, orderNumber));
+
+        if (view.confirmation()) {
+            // remove order
+            service.removeOrder(orderDate, orderNumber);
+        }
     }
 
     private void unknownCommand() {

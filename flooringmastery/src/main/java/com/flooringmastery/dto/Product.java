@@ -7,13 +7,6 @@ public class Product {
     private BigDecimal costPerSquareFoot;
     private BigDecimal laborCostPerSquareFoot;
 
-    // Constructor
-    public Product(String productType, BigDecimal costPerSquareFoot, BigDecimal laborCostPerSquareFoot) {
-        this.productType = productType;
-        this.costPerSquareFoot = costPerSquareFoot;
-        this.laborCostPerSquareFoot = laborCostPerSquareFoot;
-    }
-
     // Getters and Setters
     public String getProductType() {
         return productType;
@@ -37,5 +30,12 @@ public class Product {
 
     public void setLaborCostPerSquareFoot(BigDecimal laborCostPerSquareFoot) {
         this.laborCostPerSquareFoot = laborCostPerSquareFoot;
+    }
+
+    @Override
+    public String toString() {
+        return "Product Type: " + productType + "\n"
+                + "Cost Per Square Foot: " + costPerSquareFoot + "\n"
+                + "Labor Cost Per Square Foot: " + laborCostPerSquareFoot + "\n";
     }
 }

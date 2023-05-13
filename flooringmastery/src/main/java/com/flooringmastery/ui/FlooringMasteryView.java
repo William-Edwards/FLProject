@@ -1,8 +1,10 @@
 package com.flooringmastery.ui;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.flooringmastery.dto.Order;
+import com.flooringmastery.dto.Product;
 
 public class FlooringMasteryView {
     private UserIO io;
@@ -23,7 +25,7 @@ public class FlooringMasteryView {
         return io.readInt("Please select from the above choices.", 1, 6);
     }
 
-    public void displayDisplayAllBanner() {
+    public void displayAllBanner() {
         io.print("=== Display All Orders ===");
     }
 
@@ -34,8 +36,32 @@ public class FlooringMasteryView {
         }
     }
 
+    public void displayOrder(Order order) {
+        System.out.println(order);
+    }
+
+    public Order getNewOrderInfo() {
+        String customerName = io.readString("Please enter full name");
+        String state = io.readString("Please enter state name");
+
+        Order currentOrder = new Order();
+        currentOrder.setCustomerName(customerName);
+        currentOrder.setState(state);
+
+        return currentOrder;
+
+    }
+
+    public void displayCreateBanner() {
+        io.print("=== Create Order ===");
+    }
+
     public String getOrderDate() {
         return io.readString("Please enter the date in the format MMDDYYYY.");
+    }
+
+    public String getOrderNumber() {
+        return io.readString("Please enter the order number");
     }
 
     public void displayUnknownCommandBanner() {
@@ -44,5 +70,31 @@ public class FlooringMasteryView {
 
     public void displayExitBanner() {
         io.print("Good Bye!!!");
+    }
+
+    public Order getProuctAreaInfo(Order currentOrder, List<Product> allProducts) {
+        for (Product currentProduct : allProducts) {
+            // print all product info
+            System.out.println(currentProduct);
+        }
+
+        String productType = io.readString("Please enter a product type");
+        BigDecimal area = io.readBigDecimal("Please enter a area, minimum order is 100sq ft",
+                new BigDecimal("100.00"), new BigDecimal("1000000000.00"));
+
+        currentOrder.setProductType(productType);
+        currentOrder.setArea(area);
+
+        return currentOrder;
+    }
+
+    public boolean confirmation() {
+        String answer = io.readString("Would you like to proceed? Y/N?");
+        if (answer.equals("Y")
+                || answer.equals("y")) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
