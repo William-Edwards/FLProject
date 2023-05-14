@@ -79,9 +79,8 @@ public class FlooringMasteryServiceLayerImpl implements FlooringMasteryServiceLa
     }
 
     @Override
-    public Order editOrder(Order order) {
-        // TODO Auto-generated method stub
-        return null;
+    public Order editOrder(String orderDate, Order order) {
+        return orderDao.editOrder(orderDate, order);
     }
 
     @Override

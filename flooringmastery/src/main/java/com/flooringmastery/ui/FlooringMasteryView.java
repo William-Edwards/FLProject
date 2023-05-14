@@ -66,6 +66,31 @@ public class FlooringMasteryView {
 
     }
 
+    public Order getUpdatedOrderInfo(Order currentOrder) {
+        // prompt for info
+        String customerName = io.readString("Please enter full name");
+        String state = io.readString("Please enter state abbreviation?");
+        String productType = io.readString("Please enter a product type");
+        BigDecimal area = io.readBigDecimal("Please enter a area, minimum order is 100sq ft",
+                new BigDecimal("100.00"), new BigDecimal("1000000000.00"));
+
+        if (!customerName.isBlank()) {
+            currentOrder.setCustomerName(customerName);
+        }
+        if (!state.isBlank()) {
+            currentOrder.setState(state);
+        }
+        if (!productType.isBlank()) {
+            currentOrder.setProductType(productType);
+        }
+
+        // same implementation for big deciaml, check if blank
+        currentOrder.setArea(area);
+
+        return currentOrder;
+
+    }
+
     public void displayCreateBanner() {
         io.print("=== Create Order ===");
     }

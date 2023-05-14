@@ -69,8 +69,15 @@ public class OrderDaoFileImpl implements OrderDao {
     }
 
     @Override
-    public Order editOrder(String orderDate, int orderNumber) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Order editOrder(String orderDate, Order updatedOrder) {
+        loadOrder(orderDate);
+        // remove old order
+        orders.remove(String.valueOf(updatedOrder.getOrderNumber()));
+        // add updated order
+        orders.put(String.valueOf(updatedOrder.getOrderNumber()), updatedOrder);
+        // write to file
+        writeOrder(orderDate);
+        return updatedOrder;
     }
 
     @Override

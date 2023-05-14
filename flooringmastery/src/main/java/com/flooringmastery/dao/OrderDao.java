@@ -24,12 +24,12 @@ public interface OrderDao {
      * Returns the order object associated with the given orderDate.
      * Returns null if no such order exists
      *
-     * @param orderDate
-     * @param orderNumber of the Order to retrieve, format MMDDYYYY
+     * @param orderDate order date
+     * @param order     updated order
      * @return the edited Order object null if no such order exists
      */
 
-    Order editOrder(String orderDate, int orderNumber);
+    Order editOrder(String orderDate, Order order);
 
     /**
      * Returns the order object associated with the given orderDate.

@@ -31,7 +31,7 @@ public class FlooringMasteryController {
                         createOrder();
                         break;
                     case 3:
-                        System.out.println("EDIT ORDER");
+                        editOrder();
                         break;
                     case 4:
                         removeOrder();
@@ -120,6 +120,32 @@ public class FlooringMasteryController {
             // remove order
             service.removeOrder(orderDate, orderNumber);
         }
+    }
+
+    private void editOrder() {
+
+        // get order number and date
+        String orderDate = view.getOrderDate();
+        String orderNumberString = view.getOrderNumber();
+
+        // check date
+
+        // get the current order if it exists
+        Order currentOrder = service.getOrder(orderDate, Integer.parseInt(orderNumberString));
+
+        // update order with new info
+        Order updatedOrder = view.getUpdatedOrderInfo(currentOrder);
+
+        if (service.validateOrderData(updatedOrder)) {
+            service.calculateOrderProperties(updatedOrder);
+
+            view.displayOrder(updatedOrder);
+
+            if (view.confirmation()) {
+                service.editOrder(orderDate, updatedOrder);
+            }
+        }
+
     }
 
     private void unknownCommand() {

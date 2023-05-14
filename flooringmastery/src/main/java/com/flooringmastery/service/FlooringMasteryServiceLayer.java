@@ -10,7 +10,7 @@ public interface FlooringMasteryServiceLayer {
 
     List<Order> getAllOrder(String orderDate);
 
-    Order editOrder(Order order);
+    Order editOrder(String orderDate, Order order);
 
     Order getOrder(String orderDate, int orderNumber);
 
