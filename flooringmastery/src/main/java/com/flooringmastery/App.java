@@ -1,5 +1,8 @@
 package com.flooringmastery;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.flooringmastery.controller.FlooringMasteryController;
 import com.flooringmastery.dao.OrderDao;
 import com.flooringmastery.dao.OrderDaoFileImpl;
@@ -15,13 +18,19 @@ import com.flooringmastery.ui.UserIOConsoleImpl;
 
 public class App {
     public static void main(String[] args) {
-        UserIO myIo = new UserIOConsoleImpl();
-        FlooringMasteryView myView = new FlooringMasteryView(myIo);
-        OrderDao MyOrderDao = new OrderDaoFileImpl();
-        ProductDao myProductDao = new ProductDaoFileImpl();
-        TaxDao myTaxDao = new TaxDaoFileImpl();
-        FlooringMasteryServiceLayer myService = new FlooringMasteryServiceLayerImpl(MyOrderDao, myProductDao, myTaxDao);
-        FlooringMasteryController controller = new FlooringMasteryController(myView, myService);
+        // UserIO myIo = new UserIOConsoleImpl();
+        // FlooringMasteryView myView = new FlooringMasteryView(myIo);
+        // OrderDao MyOrderDao = new OrderDaoFileImpl();
+        // ProductDao myProductDao = new ProductDaoFileImpl();
+        // TaxDao myTaxDao = new TaxDaoFileImpl();
+        // FlooringMasteryServiceLayer myService = new
+        // FlooringMasteryServiceLayerImpl(MyOrderDao, myProductDao, myTaxDao);
+        // FlooringMasteryController controller = new FlooringMasteryController(myView,
+        // myService);
+        // controller.run();
+
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("applicationContext.xml");
+        FlooringMasteryController controller = ctx.getBean("controller", FlooringMasteryController.class);
         controller.run();
     }
 }
